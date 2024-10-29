@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXRadioButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" minHeight="490.0" minWidth="710.0" prefHeight="497.0" prefWidth="710.0" styleClass="jfx-panelfondo" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.unaplanilla.controller.EmpleadosController">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+         <children>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <Label prefHeight="45.0" prefWidth="268.0" styleClass="jfx-titulo-label" text="Control de Empleados" />
+                  <HBox styleClass="jfx-contenedor-principal" VBox.vgrow="NEVER">
+                     <children>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="9.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <MFXTextField fx:id="txtId" floatingText="Id" layoutX="10.0" layoutY="61.0" maxWidth="1.7976931348623157E308" onKeyPressed="#onKeyPressedTxtId" styleClass="jfx-txt-id" VBox.vgrow="NEVER" />
+                              <MFXTextField fx:id="txtNombre" floatingText="Nombre" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+                              <MFXTextField fx:id="txtPApellido" floatingText="Primer apellido" layoutX="10.0" layoutY="61.0" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+                              <MFXTextField fx:id="txtSApellido" floatingText="Segundo apellido" layoutX="10.0" layoutY="126.0" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+                              <MFXTextField fx:id="txtCedula" floatingText="Cédula" layoutX="10.0" layoutY="191.0" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="40.0" VBox.vgrow="NEVER">
+                                 <children>
+                                    <MFXRadioButton fx:id="rdbMasculino" selected="true" text="Masculino" HBox.hgrow="NEVER">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="tggGenero" />
+                                       </toggleGroup>
+                                       <padding>
+                                          <Insets right="10.0" />
+                                       </padding>
+                                    </MFXRadioButton>
+                                    <MFXRadioButton fx:id="rdbFemenino" text="Femenino" toggleGroup="$tggGenero" HBox.hgrow="NEVER" />
+                                 </children>
+                              </HBox>
+                           </children>
+                           <padding>
+                              <Insets right="10.0" />
+                           </padding>
+                        </VBox>
+                        <Separator maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="291.0" prefWidth="3.0" HBox.hgrow="NEVER" />
+                        <VBox spacing="9.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxWidth="290.0" prefHeight="40.0" spacing="20.0">
+                                 <children>
+                                    <MFXCheckbox fx:id="chkAdministrador" onAction="#onActionChkAdministrador" text="Administrador" />
+                                    <MFXCheckbox fx:id="chkActivo" layoutX="10.0" layoutY="16.0" selected="true" text="Activo" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="-Infinity" prefHeight="40.0" prefWidth="290.0" spacing="10.0" VBox.vgrow="NEVER">
+                                 <children>
+                                    <MFXDatePicker fx:id="dtpFIngreso" floatMode="BORDER" floatingText="Fecha ingreso" minWidth="100.0" prefWidth="140.0" HBox.hgrow="NEVER" />
+                                    <MFXDatePicker fx:id="dtpFSalida" floatMode="BORDER" floatingText="Fecha salida" minWidth="100.0" prefWidth="140.0" HBox.hgrow="NEVER" />
+                                 </children>
+                              </HBox>
+                              <MFXTextField fx:id="txtCorreo" floatingText="Correo" maxWidth="1.7976931348623157E308" />
+                              <MFXTextField fx:id="txtUsuario" floatingText="Usuario" layoutX="20.0" layoutY="112.0" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+                              <MFXPasswordField fx:id="txtClave" floatingText="Clave" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                     <effect>
+                        <DropShadow blurType="GAUSSIAN" color="#00000026" radius="6.25" width="6.0" />
+                     </effect>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="40.0" prefWidth="641.0" spacing="20.0">
+                     <children>
+                        <MFXButton fx:id="btnNuevo" onAction="#onActionBtnNuevo" prefHeight="40.0" prefWidth="130.0" styleClass="jfx-btn-nuevo" text="Nuevo">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                        </MFXButton>
+                        <MFXButton fx:id="btnBuscar" layoutX="18.0" layoutY="10.0" onAction="#onActionBtnBuscar" prefHeight="40.0" prefWidth="130.0" styleClass="jfx-btn-buscar" text="Buscar">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                        </MFXButton>
+                        <MFXButton fx:id="btnEliminar" layoutX="168.0" layoutY="10.0" onAction="#onActionBtnEliminar" prefHeight="40.0" prefWidth="130.0" styleClass="jfx-btn-eliminar" text="Eliminar">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                        </MFXButton>
+                        <MFXButton fx:id="btnGuardar" layoutX="470.0" layoutY="10.0" onAction="#onActionBtnGuardar" prefHeight="40.0" prefWidth="130.0" styleClass="jfx-btn-guardar" text="Guardar">
+                           <graphic>
+                              <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" />
+                           </graphic>
+                        </MFXButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="10.0" />
+                     </VBox.margin></HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

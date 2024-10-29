@@ -1,0 +1,37 @@
+{
+    "resourcePackages": [
+        "cr.ac.una.unaplanillaws.controller"
+    ],
+    "prettyPrint": true,
+    "cacheTTL": 0,
+    "openAPI": {
+        "info": {
+            "version": "1.0.0",
+            "title": "UNA Planilla ws",
+            "description": "API REST UNAPlanillaWS",
+            "contact": {
+                "name": "Deya Cordero",
+                "email": "altamiranodeya9gmail.com"
+            }
+        },
+        "servers": [
+            {
+                "url": "http://localhost:8080/UnaPlanillaWs/"
+            },
+            {
+                "url": "https://localhost:8181/UnaPlanillaWs/"
+            }
+        ],
+        "components": {
+            "securitySchemes": {
+                "jwt-auth": {
+                    "type": "http",
+                    "description": "Json Web Token (JWT)",
+                    "in": "header",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+            }
+        }
+    }
+}

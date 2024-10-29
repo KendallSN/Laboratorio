@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane id="AnchorPane" fx:id="root" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cr.ac.una.unaplanilla.controller.LogInController">
+   <children>
+      <StackPane layoutX="41.0" layoutY="95.0" prefHeight="150.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="imvFondo" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../resources/FondoInicioRojo.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="15.0" style="-fx-background-color: white;">
+               <StackPane.margin>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </StackPane.margin>
+               <children>
+                  <ImageView fitHeight="151.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../resources/user.png" />
+                     </image>
+                  </ImageView>
+                  <HBox alignment="CENTER_LEFT" prefHeight="56.0" prefWidth="200.0" spacing="10.0">
+                     <padding>
+                        <Insets left="80.0" right="80.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="38.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                           <image>
+                              <Image url="@../resources/Usuario-48.png" />
+                           </image>
+                        </ImageView>
+                        <MFXTextField fx:id="txfUsuario" floatMode="BORDER" floatingText="Usuario" maxWidth="1.7976931348623157E308" prefHeight="40.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="148.0" prefHeight="56.0" prefWidth="200.0" spacing="10.0">
+                     <padding>
+                        <Insets left="80.0" right="80.0" />
+                     </padding>
+                     <children>
+                        <ImageView fitHeight="38.0" fitWidth="43.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
+                           <image>
+                              <Image url="@../resources/Contraseña-48.png" />
+                           </image>
+                        </ImageView>
+                        <MFXPasswordField fx:id="psfClave" allowPaste="true" floatMode="BORDER" floatingText="Clave" maxWidth="1.7976931348623157E308" prefHeight="40.0" showPassword="true" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="TOP_CENTER" prefHeight="42.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <MFXButton fx:id="btnCancelar" buttonType="RAISED" onAction="#onActionBtnCancelar" prefHeight="38.0" prefWidth="175.0" rippleAnimateShadow="true" rippleColor="WHITE" style="-fx-background-color: #42A5F5;" text="Cancelar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                        <MFXButton fx:id="btnIngresar" buttonType="RAISED" onAction="#onActionBtnIngresar" prefHeight="38.0" prefWidth="175.0" rippleAnimateShadow="true" rippleColor="WHITE" style="-fx-background-color: #42A5F5;" text="Ingresar" textFill="WHITE" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </children>
+</AnchorPane>
