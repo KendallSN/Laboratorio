@@ -79,7 +79,7 @@ public class PrincipalController extends Controller implements Initializable {
 
     @FXML
     private void onActionBtnDocumentacion(ActionEvent event) {
-        FlowController.getInstance().goView("DocumentacionView");
+        FlowController.getInstance().goView("ReporteView");
     }
 
 }
