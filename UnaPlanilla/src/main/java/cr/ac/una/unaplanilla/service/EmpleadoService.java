@@ -4,6 +4,10 @@ import cr.ac.una.unaplanilla.model.EmpleadoDto;
 import cr.ac.una.unaplanilla.util.Request;
 import cr.ac.una.unaplanilla.util.Respuesta;
 import jakarta.ws.rs.core.GenericType;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,4 +119,36 @@ public class EmpleadoService {
             return new Respuesta(false, "Error renovando el token.", "renovarToken " + ex.getMessage());
         }
     }
+    
+    public Respuesta getWord() {
+        try {
+            // Crear la solicitud y enviar
+            Request request = new Request("EmpleadoController/word");
+            request.get();
+
+            if (request.isError()) {
+                return new Respuesta(false, request.getError(), "");
+            }
+
+            // Suponiendo que `request.getData()` devuelve el cuerpo de la respuesta como InputStream
+            InputStream inputStream = request.getData();
+
+            // Ruta donde se guardará el archivo
+            Path path = Path.of("createparagraph.docx");
+
+            // Guardar el archivo desde el InputStream
+            Files.copy(inputStream, path, StandardCopyOption.REPLACE_EXISTING);
+
+            // Cerrar el InputStream
+            inputStream.close();
+
+            System.out.println("Archivo descargado correctamente como createparagraph.docx");
+            return new Respuesta(true, "", "", "Empleado", "");
+
+        } catch (Exception ex) {
+            Logger.getLogger(EmpleadoService.class.getName()).log(Level.SEVERE, "Error obteniendo el archivo", ex);
+            return new Respuesta(false, "Error obteniendo el archivo.", "getWord " + ex.getMessage());
+        }
+    }
+
 }

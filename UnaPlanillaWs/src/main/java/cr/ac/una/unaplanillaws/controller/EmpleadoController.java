@@ -27,9 +27,15 @@ import jakarta.ws.rs.core.GenericEntity;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.SecurityContext;
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.io.File;
+import java.io.FileOutputStream;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
 
 //siempre esto:
 @Secure
@@ -164,6 +170,41 @@ public class EmpleadoController {
         } catch (Exception ex) {
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
             return Response.status(CodigoRespuesta.ERROR_INTERNO.getValue()).entity("Error eliminando el usuario").build();
+        }
+    }
+    
+    @GET
+    @Path("/word")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+    public Response getWord() {
+        try {
+            // Crear el documento en memoria
+            XWPFDocument document = new XWPFDocument(); 
+
+            // Crear el párrafo
+            XWPFParagraph paragraph = document.createParagraph();
+            XWPFRun run = paragraph.createRun();
+            run.setText("At tutorialspoint.com, we strive hard to " +
+                        "provide quality tutorials for self-learning " +
+                        "purpose in the domains of Academics, Information " +
+                        "Technology, Management and Computer Programming Languages.");
+
+            // Escribir el documento a un ByteArrayOutputStream
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            document.write(out);
+            document.close();
+
+            // Devolver el documento como un archivo descargable
+            return Response.ok(out.toByteArray())
+                           .header("Content-Disposition", "attachment; filename=\"createparagraph.docx\"")
+                           .build();
+
+        } catch (Exception ex) {
+            Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(CodigoRespuesta.ERROR_INTERNO.getValue())
+                           .entity("Error al crear el archivo")
+                           .build();
         }
     }
 

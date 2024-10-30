@@ -19,6 +19,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.MultivaluedHashMap;
 import jakarta.ws.rs.core.MultivaluedMap;
 import jakarta.ws.rs.core.Response;
+import java.io.InputStream;
 import java.io.StringReader;
 import java.util.Base64;
 import java.util.Map;
@@ -217,5 +218,12 @@ public class Request {
         } else {
             return null;
         }
+    }
+    
+    public InputStream getData() {
+        if (response != null && response.hasEntity()) {
+            return response.readEntity(InputStream.class);
+        }
+        return null;
     }
 }

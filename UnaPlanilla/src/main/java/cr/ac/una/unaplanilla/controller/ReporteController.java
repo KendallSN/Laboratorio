@@ -1,5 +1,6 @@
 package cr.ac.una.unaplanilla.controller;
 
+import cr.ac.una.unaplanilla.service.EmpleadoService;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -29,6 +30,8 @@ public class ReporteController extends Controller implements Initializable {
 
     @FXML
     private void onActionGenerarDoc(ActionEvent event) {
+        EmpleadoService empleadoService=new EmpleadoService();
+        empleadoService.getWord();
     }
     
 }
