@@ -47,48 +47,26 @@ public class TiposPlanillaController extends Controller implements Initializable
 
     @FXML
     private AnchorPane root;
-    @FXML
     private TabPane tbpTipoPlanilla;
-    @FXML
     private Tab tbpTipoPlanillas;
-    @FXML
     private MFXTextField txtId;
-    @FXML
     private MFXCheckbox chkActivo;
-    @FXML
     private MFXTextField txtCodigo;
-    @FXML
     private MFXTextField txtDescripcion;
-    @FXML
     private MFXTextField txtPlanillasMes;
-    @FXML
     private Tab tbpInclusionEmpleados;
-    @FXML
     private MFXTextField txtIdEmpleado;
-    @FXML
     private MFXTextField txtNombreEmpleado;
-    @FXML
-    private MFXButton btnAgregarEmpleado;
-    @FXML
     private TableView<EmpleadoDto> tbvEmpleados;
-    @FXML
     private TableColumn<EmpleadoDto, String> tbcCodigo;
-    @FXML
     private TableColumn<EmpleadoDto, String> tbcNombre;
-    @FXML
     private TableColumn<EmpleadoDto, Boolean> tbcEliminar;
-    @FXML
-    private MFXButton btnNuevo;
-    @FXML
-    private MFXButton btnBuscar;
-    @FXML
-    private MFXButton btnEliminar;
-    @FXML
-    private MFXButton btnGuardar;
 
     TipoPlanillaDto tipoPlanillaDto;
     EmpleadoDto empleadoDto;
     List<Node> requeridos = new ArrayList<>();
+    @FXML
+    private MFXButton btnGenerarDoc;
 
     /**
      * Initializes the controller class.
@@ -221,7 +199,6 @@ public class TiposPlanillaController extends Controller implements Initializable
         txtNombreEmpleado.textProperty().unbindBidirectional(this.empleadoDto.nombre);
     }
 
-    @FXML
     private void onKeyPressTxtId(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER && !txtId.getText().isBlank()) {
             cargarTipoPlanilla(Long.valueOf(txtId.getText()));
@@ -253,14 +230,12 @@ public class TiposPlanillaController extends Controller implements Initializable
         tbvEmpleados.refresh();
     }
 
-    @FXML
     private void onKeyPressedTxtCodigo(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER && !txtCodigo.getText().isBlank()) {
             cargarTipoPlanilla(Long.valueOf(txtCodigo.getText()));
         }
     }
 
-    @FXML
     private void onKeyPressedTxtIdEmpleado(KeyEvent event) {
         if (event.getCode() == KeyCode.ENTER && !txtIdEmpleado.getText().isBlank()) {
             cargarEmpleado(Long.valueOf(txtIdEmpleado.getText()));
@@ -284,7 +259,6 @@ public class TiposPlanillaController extends Controller implements Initializable
         }
     }
 
-    @FXML
     private void onActionBtnAgregarEmpleado(ActionEvent event) {
         if (this.empleadoDto.getId() == null || this.empleadoDto.getNombre().isEmpty()) {
             new Mensaje().showModal(Alert.AlertType.ERROR, "Agregar empleado", getStage(), "Es necesario cargar un empleado para agregarlo a la lista.");
@@ -297,7 +271,6 @@ public class TiposPlanillaController extends Controller implements Initializable
         nuevoEmpleado();
     }
 
-    @FXML
     private void selectionChangeTabEmp(Event event) {
         if (tbpInclusionEmpleados.isSelected()) {
             if (this.tipoPlanillaDto.getId() == null) {
@@ -309,7 +282,6 @@ public class TiposPlanillaController extends Controller implements Initializable
         }
     }
 
-    @FXML
     private void onActionBtnNuevo(ActionEvent event) {
         if (tbpInclusionEmpleados.isSelected()) {
             nuevoEmpleado();
@@ -320,12 +292,7 @@ public class TiposPlanillaController extends Controller implements Initializable
         }
     }
 
-    @FXML
-    private void onActionBtnBuscar(ActionEvent event) {
-        
-    }
 
-    @FXML
     private void onActionBtnEliminar(ActionEvent event) {
         try {
             if (this.tipoPlanillaDto.getId() == null) {
@@ -346,7 +313,6 @@ public class TiposPlanillaController extends Controller implements Initializable
         }
     }
 
-    @FXML
     private void onActionBtnGuardar(ActionEvent event) {
         try {
             String invalidos = validarRequeridos();
@@ -368,6 +334,10 @@ public class TiposPlanillaController extends Controller implements Initializable
             Logger.getLogger(EmpleadosController.class.getName()).log(Level.SEVERE, "Error guardando el tipo de planilla.", ex);
             new Mensaje().showModal(Alert.AlertType.ERROR, "Guardar Tipo Planilla", getStage(), "Ocurrio un error guardando el tipo de planilla.");
         }
+    }
+
+    @FXML
+    private void onActionGenerarDoc(ActionEvent event) {
     }
     
     private class ButtonCell extends TableCell<EmpleadoDto, Boolean> {
