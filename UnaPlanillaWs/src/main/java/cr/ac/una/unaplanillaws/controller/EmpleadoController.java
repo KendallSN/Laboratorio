@@ -33,9 +33,20 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.apache.poi.xwpf.usermodel.UnderlinePatterns;
+import org.apache.poi.xwpf.usermodel.XWPFAbstractNum;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFNumbering;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTAbstractNum;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTLvl;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STNumberFormat;
 
 //siempre esto:
 @Secure
@@ -172,40 +183,97 @@ public class EmpleadoController {
             return Response.status(CodigoRespuesta.ERROR_INTERNO.getValue()).entity("Error eliminando el usuario").build();
         }
     }
-    
+
     @GET
     @Path("/word")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
     public Response getWord() {
         try {
-            // Crear el documento en memoria
-            XWPFDocument document = new XWPFDocument(); 
+            XWPFDocument document = new XWPFDocument();
+            List<EmpleadoDto> empleadosDto = (List<EmpleadoDto>) empleadoService.getEmpleados().getResultado("Empleados");
+            //Primer parrafo con Negrita, cursiva y delineado
+            XWPFParagraph formattedParagraph = document.createParagraph();
+            XWPFRun boldRun = formattedParagraph.createRun();
+            boldRun.setText("Usuarios ");
+            boldRun.setBold(true);
+            XWPFRun italicRun = formattedParagraph.createRun();
+            italicRun.setText(" registrados");
+            italicRun.setItalic(true);
+            XWPFRun underlineRun = formattedParagraph.createRun();
+            underlineRun.setText(" en el sistema.");
+            underlineRun.setUnderline(UnderlinePatterns.WAVE);
+            //Tabla con columnas para ID,Nombre y apellido
+            XWPFTable table = document.createTable();
+            XWPFTableRow headerRow = table.getRow(0);
+            headerRow.getCell(0).setText("ID");
+            headerRow.addNewTableCell().setText("Nombre");
+            headerRow.addNewTableCell().setText("Apellido");
+            for (EmpleadoDto empleado : empleadosDto) {
+                XWPFTableRow row = table.createRow();
+                row.getCell(0).setText(empleado.getId().toString());
+                row.getCell(1).setText(empleado.getNombre());
+                row.getCell(2).setText(empleado.getPrimerApellido());
+            }
+            //Parrafo con numeración
+            XWPFNumbering numbering = document.createNumbering();
+            CTAbstractNum cTAbstractNum = CTAbstractNum.Factory.newInstance();
+            cTAbstractNum.setAbstractNumId(BigInteger.valueOf(0));
 
-            // Crear el párrafo
-            XWPFParagraph paragraph = document.createParagraph();
-            XWPFRun run = paragraph.createRun();
-            run.setText("At tutorialspoint.com, we strive hard to " +
-                        "provide quality tutorials for self-learning " +
-                        "purpose in the domains of Academics, Information " +
-                        "Technology, Management and Computer Programming Languages.");
+            CTLvl cTLvl = cTAbstractNum.addNewLvl();
+            cTLvl.setIlvl(BigInteger.valueOf(0));
+            cTLvl.addNewNumFmt().setVal(STNumberFormat.DECIMAL);
+            cTLvl.addNewLvlText().setVal("%1.");
+            cTLvl.addNewStart().setVal(BigInteger.valueOf(1));
 
-            // Escribir el documento a un ByteArrayOutputStream
+            XWPFAbstractNum abstractNum = new XWPFAbstractNum(cTAbstractNum);
+            BigInteger abstractNumID = numbering.addAbstractNum(abstractNum);
+            BigInteger numID = numbering.addNum(abstractNumID);
+
+            ArrayList<String> documentList = new ArrayList<>(
+            Arrays.asList(String.valueOf(empleadosDto.get(0).getId()), empleadosDto.get(0).getNombre(), empleadosDto.get(0).getCedula()));
+            for (String string : documentList) {
+                XWPFParagraph paragraph = document.createParagraph();
+                paragraph.setNumID(numID);
+                XWPFRun run = paragraph.createRun();
+                run.setText(string);
+            }
+
+            //Parrafo con viñetas
+            CTAbstractNum cTAbstractNum2 = CTAbstractNum.Factory.newInstance();
+            cTAbstractNum2.setAbstractNumId(BigInteger.valueOf(1));
+
+            CTLvl cTLvl2 = cTAbstractNum2.addNewLvl();
+            cTLvl2.setIlvl(BigInteger.valueOf(0));
+            cTLvl2.addNewNumFmt().setVal(STNumberFormat.BULLET);
+            cTLvl2.addNewLvlText().setVal("•");
+            cTLvl2.addNewStart().setVal(BigInteger.valueOf(1));
+
+            XWPFAbstractNum abstractNum2 = new XWPFAbstractNum(cTAbstractNum2);
+            BigInteger abstractNumID2 = numbering.addAbstractNum(abstractNum2);
+            BigInteger numID2 = numbering.addNum(abstractNumID2);
+
+            ArrayList<String> documentList2 = new ArrayList<>(
+                Arrays.asList(String.valueOf(empleadosDto.get(1).getId()), empleadosDto.get(1).getNombre(), empleadosDto.get(1).getCedula()));
+            for (String string : documentList2) {
+                XWPFParagraph paragraph = document.createParagraph();
+                paragraph.setNumID(numID2);
+                XWPFRun run = paragraph.createRun();
+                run.setText(string);
+            }
+           
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             document.write(out);
             document.close();
-
-            // Devolver el documento como un archivo descargable
+            
             return Response.ok(out.toByteArray())
-                           .header("Content-Disposition", "attachment; filename=\"createparagraph.docx\"")
-                           .build();
-
+                    .header("Content-Disposition", "attachment; filename=\"empleados.docx\"")
+                    .build();
         } catch (Exception ex) {
             Logger.getLogger(EmpleadoController.class.getName()).log(Level.SEVERE, null, ex);
             return Response.status(CodigoRespuesta.ERROR_INTERNO.getValue())
-                           .entity("Error al crear el archivo")
-                           .build();
+                    .entity("Error al crear el archivo")
+                    .build();
         }
     }
-
 }

@@ -97,6 +97,24 @@ public class EmpleadoService {
             return new Respuesta(false, CodigoRespuesta.ERROR_INTERNO, "Ocurrio un error al consultar el empleado.", "getEmpleado " + ex.getMessage());
         }
     }
+    public Respuesta getEmpleados() {
+        try {
+            Query qryEmpleado = em.createNamedQuery("Empleado.findAll", Empleado.class);
+
+            List<Empleado> empleados = qryEmpleado.getResultList();
+            List<EmpleadoDto> empleadosDto = new ArrayList<>();
+            for (Empleado empleado : empleados) {
+                empleadosDto.add(new EmpleadoDto(empleado));
+            }
+            return new Respuesta(true, CodigoRespuesta.CORRECTO, "", "", "Empleados", empleadosDto);
+
+        } catch (NoResultException ex) {
+            return new Respuesta(false, CodigoRespuesta.ERROR_NOENCONTRADO, "No existen empleados con los criterios ingresados.", "getEmpleados NoResultException");
+        } catch (Exception ex) {
+            LOG.log(Level.SEVERE, "Ocurrio un error al consultar el empleado.", ex);
+            return new Respuesta(false, CodigoRespuesta.ERROR_INTERNO, "Ocurrio un error al consultar el empleado.", "getEmpleado " + ex.getMessage());
+        }
+    }
 //Diferencias entre este y el anterior:hace automatico el commit y el rollback
 
     public Respuesta guardarEmpleado(EmpleadoDto empleadoDto) {
